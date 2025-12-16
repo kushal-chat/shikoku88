@@ -157,7 +157,8 @@ def get_shikoku_88():
     
 if __name__ == "__main__":
 
-    spot_ids = get_shikoku_88()  # add more if needed
+    # spot_ids = get_shikoku_88() 
+    spot_ids = [82533, 83006, 81814, 82394, 83162, 83165, 82634, 83149, 83007, 82887, 82454, 82710, 82514, 82185, 82409, 82616]
 
     out_csv = "goshuin/train/metadata.csv"
 
@@ -165,7 +166,7 @@ if __name__ == "__main__":
     with open(out_csv, "w", encoding="utf-8", newline="") as fout:
         writer = csv.writer(fout)
         writer.writerow([
-            "image_path",
+            "file_name",
             "spot_id",
             "name",
             "kana",
