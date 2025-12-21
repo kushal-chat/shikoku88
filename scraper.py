@@ -12,7 +12,7 @@ BASE_URL = "https://omairi.club/api/spots/{spot_id}/goshuin?page={page}"
 MAX_POSTS = 15
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
-    "Referer": "https://omairi.club/spots/85532/goshuin",
+    "Referer": "https://omairi.club/spots/82856/goshuin", # example goshuin
 }
 
 def get_content(url: str):
@@ -80,7 +80,6 @@ def get_images_and_dates(spot_id: int, max_pages: int | None = None):
             print("No posts in response, stopping.")
             break
 
-        # ---- NEW LOGIC: take up to 3 images per page ----
         images_taken = 0
 
         for post in posts:
@@ -92,7 +91,7 @@ def get_images_and_dates(spot_id: int, max_pages: int | None = None):
                 image_urls.append(img)
                 images_taken += 1
 
-                if images_taken >= 3:  # <-- stop after 3 per page
+                if images_taken >= 3:  # stop after 3 per page
                     break
 
             if len(image_urls) >= MAX_POSTS:
@@ -135,8 +134,8 @@ def img_to_base64(path: str) -> str:
 
 instruction = "以下の御朱印情報から、神社名・所在地・由来をJSON形式で教えてください。"
 
-def get_shikoku_88():
-    URL = "https://omairi.club/collections/shikoku88"
+def get_bando_33():
+    URL = "https://omairi.club/collections/bando33"
     response = requests.get(URL, headers=HEADERS)
     response.raise_for_status()
 
@@ -157,10 +156,8 @@ def get_shikoku_88():
     
 if __name__ == "__main__":
 
-    # spot_ids = get_shikoku_88() 
-    spot_ids = [82533, 83006, 81814, 82394, 83162, 83165, 82634, 83149, 83007, 82887, 82454, 82710, 82514, 82185, 82409, 82616]
-
-    out_csv = "goshuin/train/metadata.csv"
+    spot_ids = get_bando_33() 
+    out_csv = "goshuin/metadata.csv"
 
     # Open CSV for writing
     with open(out_csv, "w", encoding="utf-8", newline="") as fout:
@@ -196,6 +193,6 @@ if __name__ == "__main__":
                     desc,
                     date
                 ])
-                print("Wrote to csv")
+                print("wrote to csv")
 
-    print("Wrote metadata.csv")
+    print("completed writing to metadata.csv")
